@@ -25,15 +25,14 @@ Game >> cells [
 Game >> initialize [ 
 timer := Stopwatch new.
 moves := 0.
-cells := { }.
+cells := Array new: 16.
 
 1 to: 4 do: [ :row |
-    cells at: row put: { }.
     1 to: 4 do: [ :column |
-        | cell |
+        | cell|
         cell := Cell new.
         cell currentNumber: row * 4 + column + 1; isEmpty: true.
-        cells at: row * 4 + column + 1 put: cell.
+        cells at: (row - 1) * 4 + column put: cell.
     ]
 ].
 ]

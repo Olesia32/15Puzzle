@@ -9,7 +9,8 @@ Class {
 FifteenPuzzleAplication >> initialize [ 
 super initialize.
 self 
-useBackend: #Morphic.
+useBackend: #Morphic
+with: FifteenPuzzleConfiguration new.
 ]
 
 { #category : 'running' }

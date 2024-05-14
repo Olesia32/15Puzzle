@@ -40,8 +40,8 @@ Cell >> currentNumber: anInteger [
 	currentNumber := anInteger.
 	isEmpty := false.
 	color := currentNumber == correctNumber
-		         ifTrue: [ Color r: 119 g: 141 b: 69. isCorrect := true ]
-		         ifFalse: [ Color r: 250 g: 128 b: 114. isCorrect := false ]
+		         ifTrue: [ Color green. isCorrect := true ]
+		         ifFalse: [ Color red. isCorrect := false ]
 ]
 
 { #category : 'accessing' }
@@ -58,13 +58,13 @@ Cell >> isEmpty [
 Cell >> isEmpty: aBoolean [
 isEmpty := aBoolean.
 (isEmpty)
-ifTrue: [ color := Color r:123 g:104 b:238 ]
+ifTrue: [ color := Color purple ]
 ]
 
 { #category : 'api' }
 Cell >> number [
-(correctNumber > 0)
-ifTrue: [ ^ correctNumber asString ] ifFalse: [ ^ '' ]
+
+	correctNumber ifNotNil: [ ^ correctNumber asString ] ifNil: [ ^ '' ]
 ]
 
 { #category : 'accessing' }
