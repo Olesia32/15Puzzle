@@ -16,7 +16,16 @@ Class {
 
 { #category : 'initialization' }
 FifteenPuzzlePresenter >> connectPresenters [ 
-newGameButton action: [ game startGame initializeCells ].
+newGameButton action: [ game startGame.
+	self redrawCells ].
+cells do: [ :each |
+    each action: [
+        | index |
+        index := cells indexOf: each.
+        
+        self redrawCells.
+    ].
+].
 ]
 
 { #category : 'layout' }
@@ -136,4 +145,19 @@ FifteenPuzzlePresenter >> initializeWindow: aWindowPresenter [
  aWindowPresenter
          title: '';
          initialExtent: 700 @ 800
+]
+
+{ #category : 'initialization' }
+FifteenPuzzlePresenter >> redrawCells [
+
+1 to: 16 do: [ :index|
+	|cell|
+	cell := cells at: index.
+	cell 
+	    label: (game cells at: index) number;
+	    color: (game cells at: index) color;
+	    borderWidth: 0.
+	cells at: index put: cell.
+	].
+^ self defaultLayout 
 ]

@@ -5,7 +5,6 @@ Class {
 		'row',
 		'column',
 		'correctNumber',
-		'currentNumber',
 		'isEmpty',
 		'isCorrect',
 		'color'
@@ -16,22 +15,35 @@ Class {
 
 { #category : 'accessing' }
 Cell >> color [
-^ color 
+
+	^ color
 ]
 
 { #category : 'accessing' }
 Cell >> column [
-^ column
+
+	^ column
 ]
 
 { #category : 'accessing' }
-Cell >> column: anInteger [
-column := anInteger 
+Cell >> column: arg1 [
+
+	column := arg1
 ]
 
 { #category : 'accessing' }
 Cell >> correctNumber: anInteger [
-correctNumber := anInteger
+
+	correctNumber := anInteger.
+	isEmpty := false.
+	color := correctNumber = (((column - 1) * 4) + row)
+		         ifTrue: [ Color green. isCorrect := true]
+		         ifFalse: [ Color red ]
+]
+
+{ #category : 'api' }
+Cell >> currentNumber [
+	^ (((column - 1) * 4) + row)
 ]
 
 { #category : 'api' }
@@ -46,33 +58,38 @@ Cell >> currentNumber: anInteger [
 
 { #category : 'accessing' }
 Cell >> isCorrect [
-^isCorrect 
+
+	^ isCorrect
 ]
 
 { #category : 'accessing' }
 Cell >> isEmpty [
-^isEmpty 
+
+	^ isEmpty
 ]
 
 { #category : 'accessing' }
-Cell >> isEmpty: aBoolean [
-isEmpty := aBoolean.
-(isEmpty)
-ifTrue: [ color := Color purple ]
+Cell >> isEmpty: arg1 [
+
+	isEmpty := arg1.
+	isEmpty ifTrue: [ color := Color purple ]
 ]
 
 { #category : 'api' }
 Cell >> number [
 
-	correctNumber ifNotNil: [ ^ correctNumber asString ] ifNil: [ ^ '' ]
+	correctNumber ifNotNil: [ ^ correctNumber asString ].
+	^ ''
 ]
 
 { #category : 'accessing' }
 Cell >> row [
-^ row
+
+	^ row
 ]
 
 { #category : 'accessing' }
-Cell >> row: anInteger [
-row := anInteger
+Cell >> row: arg1 [
+
+	row := arg1
 ]

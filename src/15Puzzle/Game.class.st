@@ -23,6 +23,8 @@ Game >> cells [
 
 { #category : 'initialization' }
 Game >> initialize [ 
+|i|
+i := 1.
 timer := Stopwatch new.
 moves := 0.
 cells := Array new: 16.
@@ -31,8 +33,11 @@ cells := Array new: 16.
     1 to: 4 do: [ :column |
         | cell|
         cell := Cell new.
-        cell currentNumber: row * 4 + column + 1; isEmpty: true.
-        cells at: (row - 1) * 4 + column put: cell.
+        cell row: row.
+        cell column: column.
+        cell isEmpty: true.
+        cells at: i put: cell.
+        i := i + 1.
     ]
 ].
 ]
@@ -49,7 +54,7 @@ numbers := (1 to: 15) asArray shuffled.
 1 to: 16 do: [ :index|
         | cellNumber |
         (index == 16)
-            ifFalse: [ cellNumber := numbers removeFirst.
+            ifFalse: [ cellNumber := numbers at: index.
         (cells at: index) correctNumber: cellNumber. ]
     ].
 
