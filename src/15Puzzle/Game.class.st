@@ -21,6 +21,24 @@ Game >> cells [
 ^ cells
 ]
 
+{ #category : 'as yet unclassified' }
+Game >> changeOrder: aCurrentNumber [
+|cell emptyCell|
+cell := cells detect: [ :each | each currentNumber = aCurrentNumber ] ifNone: [ nil ].
+(cell isEmpty) ifFalse: [ 
+	 emptyCell := cells detect: [ :each | each isEmpty ] ifNone: [ nil ].
+	 (((cell row = emptyCell row) and: ((cell column - emptyCell column ) abs = 1)) or: ((cell column = emptyCell column) and: ((cell row - emptyCell row ) abs = 1)))
+	ifTrue: [ 
+		emptyCell row: cell row.
+		emptyCell column: cell column.
+		emptyCell correctNumber: cell correctNumber.
+		cell isEmpty: true.
+		cell correctNumber: nil.
+		cells at: emptyCell currentNumber put: emptyCell.
+		cells at: cell currentNumber put: cell]
+	]
+]
+
 { #category : 'initialization' }
 Game >> initialize [ 
 |i|

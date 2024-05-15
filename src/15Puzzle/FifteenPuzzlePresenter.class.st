@@ -22,7 +22,7 @@ cells do: [ :each |
     each action: [
         | index |
         index := cells indexOf: each.
-        
+        game changeOrder: index.
         self redrawCells.
     ].
 ].

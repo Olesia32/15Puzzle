@@ -32,13 +32,18 @@ Cell >> column: arg1 [
 ]
 
 { #category : 'accessing' }
+Cell >> correctNumber [
+^ correctNumber 
+]
+
+{ #category : 'accessing' }
 Cell >> correctNumber: anInteger [
 
 	correctNumber := anInteger.
 	isEmpty := false.
-	color := correctNumber = (((column - 1) * 4) + row)
-		         ifTrue: [ Color green. isCorrect := true]
-		         ifFalse: [ Color red ]
+	color := color := correctNumber = (((column - 1) * 4) + row)
+		                  ifTrue: [ Color green ]
+		                  ifFalse: [ Color red ]
 ]
 
 { #category : 'api' }
