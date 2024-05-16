@@ -50,7 +50,6 @@ Game >> initialize [
 |i|
 i := 1.
 timer := Stopwatch new.
-moves := 0.
 cells := Array new: 16.
 
 1 to: 4 do: [ :row |
@@ -101,6 +100,7 @@ numbers := (1 to: 15) asArray shuffled.
     ].
 
 timer activate.
+moves := 0.
 ]
 
 { #category : 'accessing' }

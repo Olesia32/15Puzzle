@@ -44,8 +44,8 @@ Cell >> correctNumber: anInteger [
 	ifTrue: [ isEmpty := true. ] ifFalse: [  
 	isEmpty := false.
 	color := color := correctNumber = (((row - 1) * 4) + column)
-		                  ifTrue: [ Color green ]
-		                  ifFalse: [ Color red ]]
+		                  ifTrue: [ 'lightGreen' ]
+		                  ifFalse: [ 'lightRed' ]]
 ]
 
 { #category : 'api' }
@@ -79,7 +79,7 @@ Cell >> isEmpty [
 Cell >> isEmpty: arg1 [
 
 	isEmpty := arg1.
-	isEmpty ifTrue: [ color := Color purple ]
+	isEmpty ifTrue: [ color := 'lightPurple' ]
 ]
 
 { #category : 'api' }

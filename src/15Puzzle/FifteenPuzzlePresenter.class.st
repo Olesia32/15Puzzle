@@ -32,18 +32,20 @@ cells do: [ :each |
 FifteenPuzzlePresenter >> defaultLayout [ 
  ^ SpBoxLayout newTopToBottom
         spacing: 15;
-        add: (SpBoxLayout new hAlignCenter; add: mainLabel; yourself) expand: false;
-		  add: (SpBoxLayout newHorizontal 
+        add: (SpBoxLayout new hAlignCenter; add: mainLabel withConstraints: [:constr | constr padding: 35]; yourself) expand: false;
+		  add: (SpBoxLayout newHorizontal
 		         spacing: 300;
-		         add: newGameButton withConstraints: [:constr | constr padding: 40; expand:false];
+		         add: newGameButton withConstraints: [:constr | constr padding: 20; expand:false];
 		         add: (SpGridLayout new
+		              addStyle: 'lightGreen';
                     add: 'Time' at: 1@1;
                     add: #timeValue at: 1@2;
                     add: 'Moves' at: 2@1;
                     add: #movesValue at: 2@2;
                     yourself);
-            yourself) expand:false;
-		add: (SpGridLayout new
+            yourself) withConstraints: [:constr | constr height: 60; expand: false];
+		add: (SpBoxLayout new
+		       add: (SpGridLayout new
 		       columnHomogeneous: false;
 		       add: (cells at: 1) at: 1@1;
 		       add: (cells at: 2) at: 2@1;
@@ -61,7 +63,7 @@ FifteenPuzzlePresenter >> defaultLayout [
 		       add: (cells at: 14) at: 2@4;
 		       add: (cells at: 15) at: 3@4;
 		       add: (cells at: 16) at: 4@4;
-		yourself );
+		yourself ); yourself );
 		yourself 
 ]
 
@@ -115,7 +117,7 @@ cells := Array new: 16.
 	cell := self newButton.
 	cell 
 	    label: (game cells at: index) number;
-	    color: (game cells at: index) color;
+	    addStyle: (game cells at: index) color;
 	    borderWidth: 0.
 	cells at: index put: cell.
 	].
@@ -153,14 +155,24 @@ FifteenPuzzlePresenter >> initializeWindow: aWindowPresenter [
 { #category : 'initialization' }
 FifteenPuzzlePresenter >> redrawCells [
 movesValue label: game moves asString.
+self removeColorStyle.
 1 to: 16 do: [ :index|
 	|cell|
 	cell := cells at: index.
 	cell 
 	    label: (game cells at: index) number;
-	    color: (game cells at: index) color;
+	    addStyle: (game cells at: index) color;
 	    borderWidth: 0.
 	cells at: index put: cell.
 	].
 ^ self defaultLayout 
+]
+
+{ #category : 'removing' }
+FifteenPuzzlePresenter >> removeColorStyle [
+1 to: 16 do: [ :index |
+	|cell|
+	cell := cells at: index.
+	cell
+	   removeStyle: (game cells at: index) color.]
 ]
