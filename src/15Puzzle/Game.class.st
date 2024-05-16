@@ -22,21 +22,27 @@ Game >> cells [
 ]
 
 { #category : 'as yet unclassified' }
-Game >> changeOrder: aCurrentNumber [
-|cell emptyCell|
-cell := cells detect: [ :each | each currentNumber = aCurrentNumber ] ifNone: [ nil ].
-(cell isEmpty) ifFalse: [ 
-	 emptyCell := cells detect: [ :each | each isEmpty ] ifNone: [ nil ].
-	 (((cell row = emptyCell row) and: ((cell column - emptyCell column ) abs = 1)) or: ((cell column = emptyCell column) and: ((cell row - emptyCell row ) abs = 1)))
-	ifTrue: [ 
-		emptyCell row: cell row.
-		emptyCell column: cell column.
-		emptyCell correctNumber: cell correctNumber.
-		cell isEmpty: true.
-		cell correctNumber: nil.
-		cells at: emptyCell currentNumber put: emptyCell.
-		cells at: cell currentNumber put: cell]
-	]
+Game >> changeOrder: arg1 [
+	| cell emptyCell emptyCellRow emptyCellColumn |
+	cell := cells
+		        detect: [ :arg2 | arg2 currentNumber = arg1 ]
+		        ifNone: [  ].
+	cell isEmpty ifFalse: [
+		emptyCell := cells detect: [ :arg3 | arg3 isEmpty ] ifNone: [  ].
+		((cell row = emptyCell row and: (cell column - emptyCell column) abs = 1) or:
+			 (cell column = emptyCell column and: (cell row - emptyCell row) abs = 1))
+			ifTrue: [
+				emptyCellRow := emptyCell row.
+				emptyCellColumn := emptyCell column.
+				emptyCell
+					correctNumber: cell correctNumber.
+				cell
+				   isEmpty: true;
+					correctNumber: nil.
+				cells
+					at: emptyCell currentNumber put: emptyCell;
+					at: cell currentNumber put: cell ]].
+			moves := moves + 1.
 ]
 
 { #category : 'initialization' }
@@ -58,6 +64,24 @@ cells := Array new: 16.
         i := i + 1.
     ]
 ].
+]
+
+{ #category : 'testing' }
+Game >> isGameOver [
+    "Перевіряє, чи гра завершилась"
+    cells isEmpty ifTrue: [ ^ false ]. 
+    cells do: [ :cell |
+        (cell isEmpty or: [ cell isCorrect not ]) ifTrue: [ ^ false ].
+    ].
+
+    timer stop.
+    ^ true.
+
+]
+
+{ #category : 'accessing' }
+Game >> moves [
+^ moves
 ]
 
 { #category : 'removing' }

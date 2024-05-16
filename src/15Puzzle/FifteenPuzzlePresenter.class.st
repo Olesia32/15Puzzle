@@ -46,20 +46,20 @@ FifteenPuzzlePresenter >> defaultLayout [
 		add: (SpGridLayout new
 		       columnHomogeneous: false;
 		       add: (cells at: 1) at: 1@1;
-		       add: (cells at: 2) at: 1@2;
-		       add: (cells at: 3) at: 1@3;
-		       add: (cells at: 4) at: 1@4;
-		       add: (cells at: 5) at: 2@1;
+		       add: (cells at: 2) at: 2@1;
+		       add: (cells at: 3) at: 3@1;
+		       add: (cells at: 4) at: 4@1;
+		       add: (cells at: 5) at: 1@2;
 		       add: (cells at: 6) at: 2@2;
-		       add: (cells at: 7) at: 2@3;
-		       add: (cells at: 8) at: 2@4;
-		       add: (cells at: 9) at: 3@1;
-		       add: (cells at: 10) at: 3@2;
+		       add: (cells at: 7) at: 3@2;
+		       add: (cells at: 8) at: 4@2;
+		       add: (cells at: 9) at: 1@3;
+		       add: (cells at: 10) at: 2@3;
 		       add: (cells at: 11) at: 3@3;
-		       add: (cells at: 12) at: 3@4;
-		       add: (cells at: 13) at: 4@1;
-		       add: (cells at: 14) at: 4@2;
-		       add: (cells at: 15) at: 4@3;
+		       add: (cells at: 12) at: 4@3;
+		       add: (cells at: 13) at: 1@4;
+		       add: (cells at: 14) at: 2@4;
+		       add: (cells at: 15) at: 3@4;
 		       add: (cells at: 16) at: 4@4;
 		yourself );
 		yourself 
@@ -128,6 +128,9 @@ mainLabel
 
 self initializeStyles.
 
+movesValue 
+     label: game moves asString.
+
 ]
 
 { #category : 'initialization' }
@@ -149,7 +152,7 @@ FifteenPuzzlePresenter >> initializeWindow: aWindowPresenter [
 
 { #category : 'initialization' }
 FifteenPuzzlePresenter >> redrawCells [
-
+movesValue label: game moves asString.
 1 to: 16 do: [ :index|
 	|cell|
 	cell := cells at: index.

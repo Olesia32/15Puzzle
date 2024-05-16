@@ -40,15 +40,17 @@ Cell >> correctNumber [
 Cell >> correctNumber: anInteger [
 
 	correctNumber := anInteger.
+	(correctNumber = nil)
+	ifTrue: [ isEmpty := true. ] ifFalse: [  
 	isEmpty := false.
-	color := color := correctNumber = (((column - 1) * 4) + row)
+	color := color := correctNumber = (((row - 1) * 4) + column)
 		                  ifTrue: [ Color green ]
-		                  ifFalse: [ Color red ]
+		                  ifFalse: [ Color red ]]
 ]
 
 { #category : 'api' }
 Cell >> currentNumber [
-	^ (((column - 1) * 4) + row)
+	^ (((row - 1) * 4) + column)
 ]
 
 { #category : 'api' }
