@@ -2,10 +2,8 @@ Class {
 	#name : 'Game',
 	#superclass : 'Object',
 	#instVars : [
-		'timer',
 		'moves',
-		'cells',
-		'observers'
+		'cells'
 	],
 	#category : '15Puzzle',
 	#package : '15Puzzle'
@@ -18,38 +16,38 @@ Game >> addObserver: anObserver [
 
 { #category : 'accessing' }
 Game >> cells [
-^ cells
+
+	^ cells
 ]
 
 { #category : 'as yet unclassified' }
 Game >> changeOrder: arg1 [
-	| cell emptyCell emptyCellRow emptyCellColumn |
-	cell := cells
+
+	| tmp1 tmp2 tmp3 tmp4 |
+	tmp1 := cells
 		        detect: [ :arg2 | arg2 currentNumber = arg1 ]
 		        ifNone: [  ].
-	cell isEmpty ifFalse: [
-		emptyCell := cells detect: [ :arg3 | arg3 isEmpty ] ifNone: [  ].
-		((cell row = emptyCell row and: (cell column - emptyCell column) abs = 1) or:
-			 (cell column = emptyCell column and: (cell row - emptyCell row) abs = 1))
+	tmp1 isEmpty ifFalse: [
+		tmp2 := cells detect: [ :arg3 | arg3 isEmpty ] ifNone: [  ].
+		((tmp1 row = tmp2 row and: (tmp1 column - tmp2 column) abs = 1) or:
+			 (tmp1 column = tmp2 column and: (tmp1 row - tmp2 row) abs = 1))
 			ifTrue: [
-				emptyCellRow := emptyCell row.
-				emptyCellColumn := emptyCell column.
-				emptyCell
-					correctNumber: cell correctNumber.
-				cell
-				   isEmpty: true;
+				tmp3 := tmp2 row.
+				tmp4 := tmp2 column.
+				tmp2 correctNumber: tmp1 correctNumber.
+				tmp1
+					isEmpty: true;
 					correctNumber: nil.
 				cells
-					at: emptyCell currentNumber put: emptyCell;
-					at: cell currentNumber put: cell ]].
-			moves := moves + 1.
+					at: tmp2 currentNumber put: tmp2;
+					at: tmp1 currentNumber put: tmp1 ] ].
+	moves := moves + 1
 ]
 
 { #category : 'initialization' }
 Game >> initialize [ 
 |i|
 i := 1.
-timer := Stopwatch new.
 cells := Array new: 16.
 
 1 to: 4 do: [ :row |
@@ -67,20 +65,17 @@ cells := Array new: 16.
 
 { #category : 'testing' }
 Game >> isGameOver [
-    "Перевіряє, чи гра завершилась"
-    cells isEmpty ifTrue: [ ^ false ]. 
-    cells do: [ :cell |
-        (cell isEmpty or: [ cell isCorrect not ]) ifTrue: [ ^ false ].
-    ].
 
-    timer stop.
-    ^ true.
-
+	cells isEmpty ifTrue: [ ^ false ].
+	nil.
+	^ cells noneSatisfy: [ :arg1 |
+		  arg1 isEmpty or: [ arg1 isCorrect not ] ]
 ]
 
 { #category : 'accessing' }
 Game >> moves [
-^ moves
+
+	^ moves
 ]
 
 { #category : 'removing' }
@@ -92,14 +87,13 @@ Game >> removeObserver: anObserver [
 Game >> startGame [
 |numbers|
 numbers := (1 to: 15) asArray shuffled.
+self initialize.
 1 to: 16 do: [ :index|
         | cellNumber |
         (index == 16)
             ifFalse: [ cellNumber := numbers at: index.
         (cells at: index) correctNumber: cellNumber. ]
     ].
-
-timer activate.
 moves := 0.
 ]
 

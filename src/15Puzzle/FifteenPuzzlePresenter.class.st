@@ -5,7 +5,6 @@ Class {
 		'game',
 		'mainLabel',
 		'newGameButton',
-		'timeValue',
 		'movesValue',
 		'gamePanel',
 		'cells'
@@ -15,17 +14,17 @@ Class {
 }
 
 { #category : 'initialization' }
-FifteenPuzzlePresenter >> connectPresenters [ 
-newGameButton action: [ game startGame.
-	self redrawCells ].
-cells do: [ :each |
-    each action: [
-        | index |
-        index := cells indexOf: each.
-        game changeOrder: index.
-        self redrawCells.
-    ].
-].
+FifteenPuzzlePresenter >> connectPresenters [
+
+	newGameButton action: [
+		game startGame.
+		self redrawCells ].
+	cells do: [ :arg1 |
+		arg1 action: [
+			| tmp1 |
+			tmp1 := cells indexOf: arg1.
+			game changeOrder: tmp1.
+			self redrawCells ] ]
 ]
 
 { #category : 'layout' }
@@ -37,9 +36,6 @@ FifteenPuzzlePresenter >> defaultLayout [
 		         spacing: 300;
 		         add: newGameButton withConstraints: [:constr | constr padding: 20; expand:false];
 		         add: (SpGridLayout new
-		              addStyle: 'lightGreen';
-                    add: 'Time' at: 1@1;
-                    add: #timeValue at: 1@2;
                     add: 'Moves' at: 2@1;
                     add: #movesValue at: 2@2;
                     yourself);
@@ -105,7 +101,6 @@ gridLayout := SpGridLayout new
 FifteenPuzzlePresenter >> initializePresenters [ 
 game := Game new.
 newGameButton := self newButton.
-timeValue := self newLabel.
 movesValue := self newLabel.
 mainLabel := self newLabel.
 gamePanel := self newPresenter.
@@ -131,25 +126,25 @@ mainLabel
 self initializeStyles.
 
 movesValue 
-     label: game moves asString.
+     label: '-'.
 
 ]
 
 { #category : 'initialization' }
-FifteenPuzzlePresenter >> initializeStyles [ 
-self addStyle: 'green'.
-mainLabel addStyle: 'title'.
-newGameButton addStyle: 'buttonStyle'.
-cells do: [ :each |
-	each addStyle: 'cellStyle' ]
+FifteenPuzzlePresenter >> initializeStyles [
 
+	self addStyle: 'green'.
+	mainLabel addStyle: 'title'.
+	newGameButton addStyle: 'buttonStyle'.
+	cells do: [ :arg1 | arg1 addStyle: 'cellStyle' ]
 ]
 
 { #category : 'initialization' }
-FifteenPuzzlePresenter >> initializeWindow: aWindowPresenter [
- aWindowPresenter
-         title: '';
-         initialExtent: 700 @ 800
+FifteenPuzzlePresenter >> initializeWindow: arg1 [
+
+	arg1
+		title: '';
+		initialExtent: 700 @ 800
 ]
 
 { #category : 'initialization' }

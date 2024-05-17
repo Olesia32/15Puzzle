@@ -16,7 +16,7 @@ FifteenPuzzleConfiguration >> configure: anApplication [
 FifteenPuzzleConfiguration >> customStyleSheet [ 
 	^ '
 	.application [
-		.buttonStyle [ Geometry { #width: 110, #height: 50 }, Draw { #backgroundColor: #344C11, #color: #778D45} ],
+		.buttonStyle [ Geometry { #width: 110, #height: 50 }, Draw { #backgroundColor: #778D45, #color: #778D45} ],
 		.cellStyle [ Geometry { #width: 80, #height: 80 }, Font { #size: 20, #bold: true}],
 		.green [ Draw { #backgroundColor: #AEC09A} ],
 		.lightGreen [ Draw { #backgroundColor: #778D45 } ],
