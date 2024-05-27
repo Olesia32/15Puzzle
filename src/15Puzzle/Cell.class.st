@@ -6,7 +6,6 @@ Class {
 		'column',
 		'correctNumber',
 		'isEmpty',
-		'isCorrect',
 		'color'
 	],
 	#category : '15Puzzle',
@@ -33,24 +32,25 @@ Cell >> column: arg1 [
 
 { #category : 'accessing' }
 Cell >> correctNumber [
-^ correctNumber 
+
+	^ correctNumber
 ]
 
 { #category : 'accessing' }
-Cell >> correctNumber: anInteger [
+Cell >> correctNumber: arg1 [
 
-	correctNumber := anInteger.
-	(correctNumber = nil)
-	ifTrue: [ isEmpty := true. ] ifFalse: [  
-	isEmpty := false.
-	color := color := correctNumber = (((row - 1) * 4) + column)
-		                  ifTrue: [ 'lightGreen' ]
-		                  ifFalse: [ 'lightRed' ]]
+	correctNumber := arg1.
+	correctNumber ifNil: [ isEmpty := true ] ifNotNil: [
+		isEmpty := false.
+		color := correctNumber = (row - 1 * 4 + column)
+			         ifTrue: [ 'lightGreen' ]
+			         ifFalse: [ 'lightRed' ] ]
 ]
 
 { #category : 'api' }
 Cell >> currentNumber [
-	^ (((row - 1) * 4) + column)
+
+	^ row - 1 * 4 + column
 ]
 
 { #category : 'api' }
@@ -66,7 +66,7 @@ Cell >> currentNumber: anInteger [
 { #category : 'accessing' }
 Cell >> isCorrect [
 
-	^ isCorrect
+	^ correctNumber = self currentNumber
 ]
 
 { #category : 'accessing' }

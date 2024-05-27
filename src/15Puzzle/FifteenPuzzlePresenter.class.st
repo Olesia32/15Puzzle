@@ -22,45 +22,54 @@ FifteenPuzzlePresenter >> connectPresenters [
 	cells do: [ :arg1 |
 		arg1 action: [
 			| tmp1 |
-			tmp1 := cells indexOf: arg1.
+			tmp1 := cells indexOf: arg1. 
 			game changeOrder: tmp1.
 			self redrawCells ] ]
 ]
 
 { #category : 'layout' }
-FifteenPuzzlePresenter >> defaultLayout [ 
- ^ SpBoxLayout newTopToBottom
-        spacing: 15;
-        add: (SpBoxLayout new hAlignCenter; add: mainLabel withConstraints: [:constr | constr padding: 35]; yourself) expand: false;
+FifteenPuzzlePresenter >> defaultLayout [
+
+	^ SpBoxLayout newTopToBottom
+		  spacing: 15;
+		  add: (SpBoxLayout new
+				   hAlignCenter;
+				   add: mainLabel
+				   withConstraints: [ :constr | constr padding: 35 ];
+				   yourself)
+		  expand: false;
 		  add: (SpBoxLayout newHorizontal
-		         spacing: 300;
-		         add: newGameButton withConstraints: [:constr | constr padding: 20; expand:false];
-		         add: (SpGridLayout new
-                    add: 'Moves' at: 2@1;
-                    add: #movesValue at: 2@2;
-                    yourself);
-            yourself) withConstraints: [:constr | constr height: 60; expand: false];
-		add: (SpBoxLayout new
-		       add: (SpGridLayout new
-		       columnHomogeneous: false;
-		       add: (cells at: 1) at: 1@1;
-		       add: (cells at: 2) at: 2@1;
-		       add: (cells at: 3) at: 3@1;
-		       add: (cells at: 4) at: 4@1;
-		       add: (cells at: 5) at: 1@2;
-		       add: (cells at: 6) at: 2@2;
-		       add: (cells at: 7) at: 3@2;
-		       add: (cells at: 8) at: 4@2;
-		       add: (cells at: 9) at: 1@3;
-		       add: (cells at: 10) at: 2@3;
-		       add: (cells at: 11) at: 3@3;
-		       add: (cells at: 12) at: 4@3;
-		       add: (cells at: 13) at: 1@4;
-		       add: (cells at: 14) at: 2@4;
-		       add: (cells at: 15) at: 3@4;
-		       add: (cells at: 16) at: 4@4;
-		yourself ); yourself );
-		yourself 
+				   spacing: 100;
+				   add: newGameButton withConstraints: [ :constr |
+					   constr
+						   padding: 20;
+						   expand: false ];
+				   add: (SpGridLayout new
+						    add: 'Moves' at: 2 @ 1;
+						    add: #movesValue at: 2 @ 2;
+						    yourself);
+				   yourself)
+		  withConstraints: [ :constr |
+			  constr
+				  height: 60;
+				  expand: false ];
+		  add: self fillGameGrid;
+		  yourself
+]
+
+{ #category : 'as yet unclassified' }
+FifteenPuzzlePresenter >> fillGameGrid [
+
+	| gridLayout |
+	gridLayout := SpGridLayout new columnHomogeneous: false.
+
+	1 to: 4 do: [ :row |
+		1 to: 4 do: [ :column |
+			| cell |
+			cell := cells at: row - 1 * 4 + column.
+			gridLayout add: cell at: column @ row ] ].
+
+	^ gridLayout
 ]
 
 { #category : 'initialization' }
@@ -98,36 +107,22 @@ gridLayout := SpGridLayout new
 ]
 
 { #category : 'initialization' }
-FifteenPuzzlePresenter >> initializePresenters [ 
-game := Game new.
-newGameButton := self newButton.
-movesValue := self newLabel.
-mainLabel := self newLabel.
-gamePanel := self newPresenter.
-cells := Array new: 16.
+FifteenPuzzlePresenter >> initializePresenters [
 
-
-1 to: 16 do: [ :index|
-	|cell|
-	cell := self newButton.
-	cell 
-	    label: (game cells at: index) number;
-	    addStyle: (game cells at: index) color;
-	    borderWidth: 0.
-	cells at: index put: cell.
-	].
-
-newGameButton 
-   label: 'New Game'.
-
-mainLabel 
-   label: '15Puzzle'.
-
-self initializeStyles.
-
-movesValue 
-     label: '-'.
-
+	game := Game new.
+	newGameButton := self newButton label: 'New Game'.
+	movesValue := self newLabel.
+	mainLabel := self newLabel label: '15Puzzle'.
+	gamePanel := self newPresenter.
+	cells := (1 to: 16) collect: [ :arg1 |
+		         | tmp1 tmp3 |
+		         tmp3 := self newButton.
+		         tmp3
+			         label: (game cells at: arg1) number;
+			         addStyle: (game cells at: arg1) color.
+		         tmp1 := tmp3 borderWidth: 0.
+		         tmp1 ].
+	self initializeStyles
 ]
 
 { #category : 'initialization' }
@@ -144,23 +139,29 @@ FifteenPuzzlePresenter >> initializeWindow: arg1 [
 
 	arg1
 		title: '';
-		initialExtent: 700 @ 800
+		initialExtent: 400 @ 600
 ]
 
 { #category : 'initialization' }
 FifteenPuzzlePresenter >> redrawCells [
-movesValue label: game moves asString.
-self removeColorStyle.
-1 to: 16 do: [ :index|
-	|cell|
-	cell := cells at: index.
-	cell 
-	    label: (game cells at: index) number;
-	    addStyle: (game cells at: index) color;
-	    borderWidth: 0.
-	cells at: index put: cell.
-	].
-^ self defaultLayout 
+
+	| tmp1 |
+	movesValue label: game moves asString.
+	self removeColorStyle.
+	1 to: 16 do: [ :tmp2 |
+		tmp1 := nil.
+		tmp1 := cells at: tmp2.
+		tmp1
+			label: (game cells at: tmp2) number;
+			addStyle: (game cells at: tmp2) color;
+			borderWidth: 0.
+		cells at: tmp2 put: tmp1 ].
+	1.
+	game isGameOver ifTrue: [
+		Transcript
+			show: 'Вітаємо! Ви успішно зібрали пазл';
+			cr ].
+	^ self defaultLayout
 ]
 
 { #category : 'removing' }
